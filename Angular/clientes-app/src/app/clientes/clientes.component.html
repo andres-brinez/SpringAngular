@@ -1,1 +1,22 @@
 <p>clientes works!</p>
+<table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Fecha de Creación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cliente of clientes"> <!-- *ngFor es una directiva de Angular que itera sobre un objeto clientes que se ewcibe -->
+        <td>{{ cliente.id }}</td>
+        <td>{{ cliente.nombre }}</td>
+        <td>{{ cliente.apellido }}</td>
+        <td>{{ cliente.email }}</td>
+        <td>{{ cliente.createAt }}</td>
+      </tr>
+    </tbody>
+    
+  </table>
