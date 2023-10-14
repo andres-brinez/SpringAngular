@@ -1,15 +1,17 @@
-export class Cliente { // Se crea la clase Cliente que representa el modelo de datos de un cliente
-    id: number;
-    nombre: string;
-    apellido: string;
-    email: string;
-    createAt: string;
+export class Cliente {
+   id: number;
+   nombre: string;
+   apellido: string;
+   email: string;
+   createAt: string;
 
-     constructor(id: number, nombre: string, apellido: string, email: string, createAt: string) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.createAt = createAt;
-     }
+   // Los parametros con ? indica que son opcionales
+   constructor(id?: number, nombre?: string, apellido?: string, email?: string, createAt?: string) {
+      // Si no se envia recibe un valor, se asigna un valor por defecto
+      this.id = id || 0;
+      this.nombre = nombre || '';
+      this.apellido = apellido || '';
+      this.email = email || '';
+      this.createAt = createAt || '';
+   }
 }
