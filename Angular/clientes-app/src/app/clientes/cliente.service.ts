@@ -60,4 +60,10 @@ export class ClienteService {
     return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, { headers: this.httpHeaders }); // Se hace la petición PUT al servidor con el id del cliente, el cliente que se va a actualizar y el tipo de contenido que se está enviando en el cuerpo de la petición
   }
 
+  // Eliminar Cliente
+  // Se recibe un id de tipo number y se retorna un Observable de tipo cliente
+  delete(id: number): Observable<Cliente> {
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, { headers: this.httpHeaders }); // Se hace la petición DELETE al servidor con el id del cliente y se le pasa la URL del recurso
+  }
+
 }
