@@ -9,7 +9,8 @@ Por ejemplo, cuando se realiza una solicitud HTTP con HttpClient, la respuesta d
 También se puede utilizar Observable para manejar eventos del usuario, como clics de botón o cambios de entrada
 .*/
 
-
+// @Injectable()  indica que la clase es un servicio y que puede ser inyectada en otros componentes o servicios.
+// La clase servicio se encarga de la lógica de negocio de la aplicación
 @Injectable({
   providedIn: 'root'
 })
