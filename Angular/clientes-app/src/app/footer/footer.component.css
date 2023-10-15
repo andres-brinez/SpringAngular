@@ -1,0 +1,6 @@
+footer{
+    position: absolute;
+    bottom: 0; /* Hace que esté al final */
+    height: 100px;
+    width: 100%;
+}
