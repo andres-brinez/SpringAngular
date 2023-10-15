@@ -18,7 +18,10 @@ export class ClientesComponent implements OnInit {
   ngOnInit() { //El método ngOnInit() se ejecuta una vez después de que Angular haya inicializado las propiedades de entrada del componente.
     
     this.clienteService.getClientes().subscribe(
-      clientes=>this.clientes=clientes
+      clientes=>this.clientes=clientes // funcion anonima
+      // function(clientes){
+      // this.clientes=clientes  
+      //}
     ); // Se llama al método getClientes() del servicio y se suscribe al Observable para recibir la respuesta que son los clientes y se asignan al array de clientes
   }
 
