@@ -1,7 +1,7 @@
 <p>{{titulo}}</p>
-<!-- El evento (ngSubmit) se utiliza para detectar cuando se envía el formulario y llamar al método onSubmit(). 
+<!-- El evento (ngSubmit) se utiliza para detectar cuando se envía el formulario y llama al método que se requiera definido en el component.ts. 
 La directiva #clienteForm="ngForm" se utiliza para crear una referencia al formulario en el componente. -->
-<form (ngSubmit)="onSubmit()" #clienteForm="ngForm">
+<form (ngSubmit)="createCliente()" #clienteForm="ngForm">
     <!-- La directiva [(ngModel)] se utiliza para enlazar el valor del campo de entrada a la propiedad nombre del objeto cliente.
         La propiedad required se utiliza para indicar que el campo es obligatorio. -->
     <div class="form-group">
