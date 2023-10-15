@@ -37,6 +37,7 @@ export class ClienteService {
     //   map(response => response as Cliente[])
     // );
 
+    // Así se hace el casteo sin map de forma mas sencilla
     return this.http.get<Cliente[]>(this.urlEndPoint);
   }
 
@@ -47,11 +48,16 @@ export class ClienteService {
     return this.http.post<Cliente>(this.urlEndPoint, cliente, { headers: this.httpHeaders }); // Se hace la petición POST al servidor y se le pasa la URL del recurso, el cliente que se va a crear y el tipo de contenido que se está enviando en el cuerpo de la petición
   }
 
-
   // Obtener Cliente
   // Se recibe un id de tipo number y se retorna un Observable de tipo cliente
   getCliente(id: number): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`); // Se hace la petición GET al servidor con el id del cliente y se le pasa la URL del recurso
+  }
+
+  // Actualizar Cliente
+  // Se recibe un cliente de tipo Cliente que tiene los datos a actualizar 
+  update(cliente: Cliente): Observable<Cliente> {
+    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, { headers: this.httpHeaders }); // Se hace la petición PUT al servidor con el id del cliente, el cliente que se va a actualizar y el tipo de contenido que se está enviando en el cuerpo de la petición
   }
 
 }
