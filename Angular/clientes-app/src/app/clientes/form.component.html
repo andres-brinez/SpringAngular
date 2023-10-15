@@ -19,6 +19,7 @@ La directiva #clienteForm="ngForm" se utiliza para crear una referencia al formu
     <!--  El botón Guardar se utiliza para enviar el formulario y llamar al método onSubmit().
         La directiva [disabled] se utiliza para deshabilitar el botón si el formulario no es válido.
         El botón Cancelar se utiliza para volver a la lista de clientes utilizando la directiva routerLink. -->
-    <button type="submit" class="btn btn-primary" [disabled]="!clienteForm.form.valid">Guardar</button>
+        <!-- [disabled]="!clienteForm.form.valid"  -->
+    <button type="submit" class="btn btn-primary" >Guardar</button>
     <a routerLink="/clientes" class="btn btn-danger">Cancelar</a>
 </form>
