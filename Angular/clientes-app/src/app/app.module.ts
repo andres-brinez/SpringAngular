@@ -11,11 +11,14 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { FormComponent } from './clientes/form.component';
+import { ClienteService } from './clientes/cliente.service';
 
 // Constante con un arreglo de las rutas
 const routes: Routes = [
   {path: '', redirectTo: '/clientes', pathMatch: 'full'},
-  {path: 'clientes', component: ClientesComponent} // ruta por defecto
+  {path: 'clientes', component: ClientesComponent},
+  {path: 'clientes/form', component: FormComponent}
+
 ];
 
 // Decorador que registra los componentes, servicios, directivas, etc. que se van a utilizar en la aplicación
@@ -34,11 +37,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes), // esto es para registrar las rutas
     FormsModule
     
-    
-
   ],
 
-  providers: [],
+  providers: [ClienteService], // Indica los servicios que se van a utilizar en la aplicación globalmente
 
   bootstrap: [AppComponent] 
 })
