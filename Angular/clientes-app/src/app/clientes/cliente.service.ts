@@ -87,7 +87,14 @@ export class ClienteService {
   // Eliminar Cliente
   // Se recibe un id de tipo number y se retorna un  Observable de cualquier tipo
   delete(id: number): Observable<any> {
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, { headers: this.httpHeaders }); // Se hace la petición DELETE al servidor con el id del cliente y se le pasa la URL del recurso
+    // Se hace la petición DELETE al servidor con el id del cliente y se le pasa la URL del recurso
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, { headers: this.httpHeaders }).pipe(
+      catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+        console.error(e.error.mensaje); // Se imprime en consola el error
+        Swal.fire(e.error.mensaje, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
+        return throwError(e); // Se retorna el error
+      })
+    ); 
   }
 
 }
