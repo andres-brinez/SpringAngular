@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'; // Injectable se utiliza para inyectar dependencias en una clase
 import { HttpClient, HttpHeaders } from '@angular/common/http'; //  HttpClient sirve para hacer peticiones HTTP a un servidor y recibir respuestas en diferentes formatos
 import { Cliente } from './Cliente';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs'; // Observable sirve para manejar eventos asíncronos
+import { catchError,throwError } from 'rxjs'; // catchError sirve para manejar errores en los Observables
+import Swal from 'sweetalert2'; 
+import { Router } from '@angular/router'; // Sirve para manejar rutas y hacer redirecciones
 
 /*
 Observable se utiliza con frecuencia para manejar solicitudes HTTP y eventos del usuario.
@@ -22,7 +25,7 @@ export class ClienteService {
 
 
   // Se hace inyección de dependencias de HttpClient en el constructor de la clase para poder utilizarlo
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
 
   // Obtiene el listado de clientes
   getClientes(): Observable<Cliente[]> {
@@ -51,7 +54,15 @@ export class ClienteService {
   // Obtener Cliente
   // Se recibe un id de tipo number y se retorna un Observable de tipo cliente
   getCliente(id: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`); // Se hace la petición GET al servidor con el id del cliente y se le pasa la URL del recurso
+    // Se hace la petición GET al servidor con el id del cliente y se le pasa la URL del recurso
+    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
+      catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+        this.router.navigate(['/clientes']); // Se redirecciona a la ruta clientes
+        console.error(e.error.mensaje); // Se imprime en consola el error
+        Swal.fire('Error al editar', e.error.mensaje, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
+        return throwError(e); // Se retorna el error
+      })
+    );
   }
 
   // Actualizar Cliente
