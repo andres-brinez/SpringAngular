@@ -45,10 +45,16 @@ export class ClienteService {
   }
 
   // Crea un cliente
-  // Se recibe un objeto de tipo cliente y se retorna un Observable de tipo cliente
-  create(cliente: Cliente): Observable<Cliente> {
-
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, { headers: this.httpHeaders }); // Se hace la petición POST al servidor y se le pasa la URL del recurso, el cliente que se va a crear y el tipo de contenido que se está enviando en el cuerpo de la petición
+  // Se recibe un objeto de tipo cliente y se retorna un Observable de cualquier tipo,
+  create(cliente: Cliente): Observable<any> {
+     // Se hace la petición POST al servidor y se le pasa la URL del recurso, el cliente que se va a crear y el tipo de contenido que se está enviando en el cuerpo de la petición
+    return this.http.post<Cliente>(this.urlEndPoint, cliente, { headers: this.httpHeaders }).pipe(
+      catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+        console.error(e.error.mensaje); // Se imprime en consola el error
+        Swal.fire(e.error.mensaje, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
+        return throwError(e); // Se retorna el error en observable
+      })
+    );
   }
 
   // Obtener Cliente
@@ -67,13 +73,20 @@ export class ClienteService {
 
   // Actualizar Cliente
   // Se recibe un cliente de tipo Cliente que tiene los datos a actualizar 
-  update(cliente: Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, { headers: this.httpHeaders }); // Se hace la petición PUT al servidor con el id del cliente, el cliente que se va a actualizar y el tipo de contenido que se está enviando en el cuerpo de la petición
+  update(cliente: Cliente): Observable<any> {
+    // Se hace la petición PUT al servidor con el id del cliente, el cliente que se va a actualizar y el tipo de contenido que se está enviando en el cuerpo de la petición
+    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, { headers: this.httpHeaders }).pipe(
+      catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+        console.error(e.error.mensaje); // Se imprime en consola el error
+        Swal.fire(e.error.mensaje, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
+        return throwError(e); // Se retorna el error
+      })
+    );
   }
 
   // Eliminar Cliente
-  // Se recibe un id de tipo number y se retorna un Observable de tipo cliente
-  delete(id: number): Observable<Cliente> {
+  // Se recibe un id de tipo number y se retorna un  Observable de cualquier tipo
+  delete(id: number): Observable<any> {
     return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, { headers: this.httpHeaders }); // Se hace la petición DELETE al servidor con el id del cliente y se le pasa la URL del recurso
   }
 
