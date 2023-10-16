@@ -3,4 +3,5 @@ footer{
     bottom: 0; /* Hace que esté al final */
     height: 100px;
     width: 100%;
+    margin-top: 50px;
 }
