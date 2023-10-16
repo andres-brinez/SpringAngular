@@ -38,19 +38,19 @@ export class FormComponent implements OnInit {
   update(): void {
 
     this.clienteService.update(this.cliente)
-      .subscribe(cliente => {
+      .subscribe(response => {
         this.router.navigate(['/clientes']) // Se redirecciona a la lista de clientes
-        swal.fire('Cliente Actualizado', `Cliente ${cliente.nombre} actualizado con éxito!`, 'success') // Se muestra una alerta en el componente a través de la librería sweetalert2
+        swal.fire('Cliente Actualizado', `Cliente ${response.cliente.nombre} actualizado con éxito!`, 'success') // Se muestra una alerta en el componente a través de la librería sweetalert2
         })
       }
 
   // Metodo que se llama cuando se envia el formulario
   createCliente(): void {
     this.clienteService.create(this.cliente)
-      .subscribe(cliente => {
+      .subscribe(response => {
         // console.log(cliente),
         this.router.navigate(['/clientes']) // Se redirecciona a la lista de clientes
-        swal.fire('Nuevo cliente', `Cliente ${cliente.nombre} creado con éxito!`, 'success') // Se muestra una alerta en el componente a través de la librería sweetalert2
+        swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con éxito!`, 'success') // Se muestra una alerta en el componente a través de la librería sweetalert2
       }
       );
   }
