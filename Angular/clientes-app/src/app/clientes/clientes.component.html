@@ -10,8 +10,17 @@
       </button>
     </div>
 
-    <table class="table table-bordered table-striped">
-      <thead>
+
+
+    <!-- si clientes es igual a 0  se muestra una alerta -->
+    <div *ngIf="clientes.length == 0" class="alert alert-info">
+      No hay clientes registrados en la base de datos
+    </div>
+    
+    <!-- El operador ?. se utiliza para comprobar si la variable clientes es nula o indefinida antes de acceder a su propiedad length. -->
+    <!-- La condición clientes se evalúa como verdadera si la variable clientes no es nula o indefinida. Luego, se utiliza el operador && para combinar esta condición con la condición clientes.length > 0. Esto asegura que la variable clientes no sea undefined antes de acceder a su propiedad length. -->
+    <table class="table table-bordered table-striped" *ngIf="clientes && clientes.length > 0">
+        <thead>
         <tr>
           <th>Id</th>
           <th>Nombre</th>
