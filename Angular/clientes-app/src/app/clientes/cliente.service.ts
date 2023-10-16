@@ -50,6 +50,11 @@ export class ClienteService {
      // Se hace la petición POST al servidor y se le pasa la URL del recurso, el cliente que se va a crear y el tipo de contenido que se está enviando en el cuerpo de la petición
     return this.http.post<Cliente>(this.urlEndPoint, cliente, { headers: this.httpHeaders }).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+
+        if(e.status==400){
+          return throwError(e); // Se retorna el error en observable
+        }
+
         console.error(e.error.mensaje); // Se imprime en consola el error
         Swal.fire(e.error.mensaje, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
         return throwError(e); // Se retorna el error en observable
@@ -77,6 +82,9 @@ export class ClienteService {
     // Se hace la petición PUT al servidor con el id del cliente, el cliente que se va a actualizar y el tipo de contenido que se está enviando en el cuerpo de la petición
     return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, { headers: this.httpHeaders }).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+        if(e.status==400){
+          return throwError(e); // Se retorna el error en observable
+        }
         console.error(e.error.mensaje); // Se imprime en consola el error
         Swal.fire(e.error.mensaje, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
         return throwError(e); // Se retorna el error

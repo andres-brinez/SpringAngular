@@ -1,3 +1,6 @@
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+    <li *ngFor="let err of errores">{{ err }}</li>
+</ul>
 <p>{{titulo}}</p>
 <!-- El evento (ngSubmit) se utiliza para detectar cuando se envía el formulario y llama al método que se requiera definido en el component.ts. 
 La directiva #clienteForm="ngForm" se utiliza para crear una referencia al formulario en el componente. -->

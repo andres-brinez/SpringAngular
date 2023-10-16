@@ -17,10 +17,13 @@ export class FormComponent implements OnInit {
   public cliente: Cliente = new Cliente()
   public titulo: string = "Crear Cliente";
 
+  public errores: string[]=[]; // Se declara un arreglo de errores
+
   constructor(private clienteService: ClienteService, private router: Router, private activateRouter: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.cargarCliente();
+  
   }
 
   cargarCliente(): void {
@@ -41,8 +44,16 @@ export class FormComponent implements OnInit {
       .subscribe(response => {
         this.router.navigate(['/clientes']) // Se redirecciona a la lista de clientes
         swal.fire('Cliente Actualizado', `Cliente ${response.cliente.nombre} actualizado con éxito!`, 'success') // Se muestra una alerta en el componente a través de la librería sweetalert2
-        })
-      }
+      },
+        // Se puede manejar cuando sale algo mal en el servidor
+        err => {
+          this.errores = err.error.errors as string[]; // Se asigna el error al arreglo de errores
+          console.error('Código del error desde el backend: ' + err.status);
+          console.error(err.error.errors);
+        }
+
+      )
+  }
 
   // Metodo que se llama cuando se envia el formulario
   createCliente(): void {
@@ -51,7 +62,13 @@ export class FormComponent implements OnInit {
         // console.log(cliente),
         this.router.navigate(['/clientes']) // Se redirecciona a la lista de clientes
         swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con éxito!`, 'success') // Se muestra una alerta en el componente a través de la librería sweetalert2
-      }
+      },
+        // Se puede manejar cuando sale algo mal en el servidor
+        err => {
+          this.errores = err.error.errors as string[]; // Se asigna el error al arreglo de errores
+          console.error('Código del error desde el backend: ' + err.status);
+          console.error(err.error.errors);
+        }
       );
   }
 
