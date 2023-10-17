@@ -36,8 +36,6 @@ export class ClienteService {
     // y se convierte la respuesta a un arreglo de clientes porqu3 viene en formato JSON, esto es un casteo <Tipo de dato> 
     // Se retorna un Observable que contiene un arreglo de clientes
 
-
-
     // Así se hace el casteo sin map de forma mas sencilla
     //return this.http.get<Cliente[]>(this.urlEndPoint);
 
@@ -54,6 +52,25 @@ export class ClienteService {
       })
     );
   }
+
+    // Obtiene el listado de clientes con paginación desde el backend
+    getClientespage(page: number): Observable<any> {
+    
+      // Se hace el casteo con map
+      return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
+        map((response: any) => {
+          (response.content as Cliente[]).map(
+            cliente => { // Se recorre el arreglo de clientes que viene en el content de responde
+            cliente.nombre = cliente.nombre.toUpperCase(); // Se convierte el nombre del cliente a mayúsculas
+            cliente.createAt= formatDate(cliente.createAt,'dd-MM-yyyy','en-US'); // Se convierte la fecha a un formato especifico
+            return cliente; // Se retorna el cliente
+          });
+          return response;
+        })
+      );
+    }
+
+
 
   // Crea un cliente
   // Se recibe un objeto de tipo cliente y se retorna un Observable de cualquier tipo,
