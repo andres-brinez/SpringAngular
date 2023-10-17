@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs'; // Observable sirve para manejar eventos
 import { catchError, throwError } from 'rxjs'; // catchError sirve para manejar errores en los Observables
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router'; // Sirve para manejar rutas y hacer redirecciones
+import { formatDate } from '@angular/common';
 
 /*
 Observable se utiliza con frecuencia para manejar solicitudes HTTP y eventos del usuario.
@@ -47,6 +48,7 @@ export class ClienteService {
         let cliente = response as Cliente[]; // Se castea la respuesta a un arreglo de clientes
         return cliente.map(cliente => { // Se recorre el arreglo de clientes
           cliente.nombre = cliente.nombre.toUpperCase(); // Se convierte el nombre del cliente a mayúsculas
+          cliente.createAt= formatDate(cliente.createAt,'dd-MM-yyyy','en-US'); // Se convierte la fecha a un formato especifico
           return cliente; // Se retorna el cliente
         });
       })
