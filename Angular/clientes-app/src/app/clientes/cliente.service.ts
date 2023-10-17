@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'; // Injectable se utiliza para inyectar dependencias en una clase
 import { HttpClient, HttpHeaders } from '@angular/common/http'; //  HttpClient sirve para hacer peticiones HTTP a un servidor y recibir respuestas en diferentes formatos
 import { Cliente } from './Cliente';
-import { Observable } from 'rxjs'; // Observable sirve para manejar eventos asíncronos
-import { catchError,throwError } from 'rxjs'; // catchError sirve para manejar errores en los Observables
-import Swal from 'sweetalert2'; 
+import { Observable, map } from 'rxjs'; // Observable sirve para manejar eventos asíncronos
+import { catchError, throwError } from 'rxjs'; // catchError sirve para manejar errores en los Observables
+import Swal from 'sweetalert2';
 import { Router } from '@angular/router'; // Sirve para manejar rutas y hacer redirecciones
 
 /*
@@ -25,7 +25,7 @@ export class ClienteService {
 
 
   // Se hace inyección de dependencias de HttpClient en el constructor de la clase para poder utilizarlo
-  constructor(private http: HttpClient, private router:Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   // Obtiene el listado de clientes
   getClientes(): Observable<Cliente[]> {
@@ -35,26 +35,34 @@ export class ClienteService {
     // y se convierte la respuesta a un arreglo de clientes porqu3 viene en formato JSON, esto es un casteo <Tipo de dato> 
     // Se retorna un Observable que contiene un arreglo de clientes
 
-    // Se hace el casteo con map
-    // return this.http.get(this.urlEndPoint).pipe(
-    //   map(response => response as Cliente[])
-    // );
+
 
     // Así se hace el casteo sin map de forma mas sencilla
-    return this.http.get<Cliente[]>(this.urlEndPoint);
+    //return this.http.get<Cliente[]>(this.urlEndPoint);
+
+    // Se hace el casteo con map
+    return this.http.get(this.urlEndPoint).pipe(
+      map(response => {
+
+        let cliente = response as Cliente[]; // Se castea la respuesta a un arreglo de clientes
+        return cliente.map(cliente => { // Se recorre el arreglo de clientes
+          cliente.nombre = cliente.nombre.toUpperCase(); // Se convierte el nombre del cliente a mayúsculas
+          return cliente; // Se retorna el cliente
+        });
+      })
+    );
   }
 
   // Crea un cliente
   // Se recibe un objeto de tipo cliente y se retorna un Observable de cualquier tipo,
   create(cliente: Cliente): Observable<any> {
-     // Se hace la petición POST al servidor y se le pasa la URL del recurso, el cliente que se va a crear y el tipo de contenido que se está enviando en el cuerpo de la petición
+    // Se hace la petición POST al servidor y se le pasa la URL del recurso, el cliente que se va a crear y el tipo de contenido que se está enviando en el cuerpo de la petición
     return this.http.post<Cliente>(this.urlEndPoint, cliente, { headers: this.httpHeaders }).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
 
-        if(e.status==400){
+        if (e.status == 400) {
           return throwError(e); // Se retorna el error en observable
         }
-
         console.error(e.error.mensaje); // Se imprime en consola el error
         Swal.fire(e.error.mensaje, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
         return throwError(e); // Se retorna el error en observable
@@ -72,7 +80,8 @@ export class ClienteService {
         console.error(e.error.mensaje); // Se imprime en consola el error
         Swal.fire('Error al editar', e.error.mensaje, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
         return throwError(e); // Se retorna el error
-      })
+      },
+      )
     );
   }
 
@@ -82,7 +91,7 @@ export class ClienteService {
     // Se hace la petición PUT al servidor con el id del cliente, el cliente que se va a actualizar y el tipo de contenido que se está enviando en el cuerpo de la petición
     return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, { headers: this.httpHeaders }).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
-        if(e.status==400){
+        if (e.status == 400) {
           return throwError(e); // Se retorna el error en observable
         }
         console.error(e.error.mensaje); // Se imprime en consola el error
@@ -102,7 +111,7 @@ export class ClienteService {
         Swal.fire(e.error.mensaje, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
         return throwError(e); // Se retorna el error
       })
-    ); 
+    );
   }
 
 }
