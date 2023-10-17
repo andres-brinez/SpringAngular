@@ -12,13 +12,15 @@ import { FooterComponent } from './footer/footer.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { FormComponent } from './clientes/form.component';
 import { ClienteService } from './clientes/cliente.service';
+import { ClientesPageComponent } from './clientes/clientes-page/clientes-page.component';
 
 // Constante con un arreglo de las rutas
 const routes: Routes = [
   {path: '', redirectTo: '/clientes', pathMatch: 'full'},
   {path: 'clientes', component: ClientesComponent},
   {path: 'clientes/form', component: FormComponent},
-  {path: 'clientes/form/:id', component: FormComponent}
+  {path: 'clientes/form/:id', component: FormComponent},
+  {path: 'clientes/page', component: ClientesPageComponent}
 
 ];
 
@@ -29,7 +31,8 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     ClientesComponent,
-    FormComponent
+    FormComponent,
+    ClientesPageComponent
   ],
   // Aquí se registran los módulos que se van a utilizar en la aplicación
   imports: [ 
