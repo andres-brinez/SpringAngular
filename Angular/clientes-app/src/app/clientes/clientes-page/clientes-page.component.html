@@ -1,0 +1,51 @@
+<div class="card border-primary mb-3">
+    <div class="card-header">Clientes</div>
+    <div class="card-body text-primary">
+      <h5 class="card-title">Listado de cliente por paginación</h5>
+  
+      
+      <div class="my-2 text-left">
+        <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
+          Crear Cliente
+        </button>
+      </div>
+  
+  
+  
+      <!-- si clientes es igual a 0  se muestra una alerta -->
+      <div *ngIf="clientes.length == 0" class="alert alert-info">
+        No hay clientes registrados en la base de datos
+      </div>
+      
+      <!-- El operador ?. se utiliza para comprobar si la variable clientes es nula o indefinida antes de acceder a su propiedad length. -->
+      <!-- La condición clientes se evalúa como verdadera si la variable clientes no es nula o indefinida. Luego, se utiliza el operador && para combinar esta condición con la condición clientes.length > 0. Esto asegura que la variable clientes no sea undefined antes de acceder a su propiedad length. -->
+      <table class="table table-bordered table-striped" *ngIf="clientes && clientes.length > 0">
+          <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Fecha</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes">
+            <td>{{ cliente.id }}</td>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.apellido }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.createAt }}</td>
+            <td>
+              <button type="button" name="button" [routerLink]="['/clientes/form',cliente.id]" class="btn btn-primary btn-sm"> Editar </button>
+            </td>
+            <td>
+              <button type="button" name="button" (click)="delete(cliente)" class="btn btn-danger btn-sm"> Eliminar </button>
+          </tr>
+        </tbody>
+      </table>
+  
+    </div>
+  </div>
