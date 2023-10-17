@@ -10,7 +10,7 @@ import { AppComponent } from './appComponent/app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ClientesComponent } from './clientes/clientes.component';
-import { FormComponent } from './clientes/form.component';
+import { FormComponent } from './clientes/form/form.component';
 import { ClienteService } from './clientes/cliente.service';
 import { ClientesPageComponent } from './clientes/clientes-page/clientes-page.component';
 
