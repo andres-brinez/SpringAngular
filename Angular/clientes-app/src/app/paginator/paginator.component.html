@@ -1,10 +1,26 @@
 <!-- *ngIf="paginas?.length > 0" -->
 <ul  class="pagination">
-    <li class="page-item" *ngFor="let pagina of paginas">
+
+    <!-- Anterior -->
+    <li class="page-item" [ngClass]="paginador.number ==0?'disabled':''">
+        <!-- Verifica que no sea la primera pagina sino lo deshabilitaa -->
+      <a class="page-link" *ngIf="paginador.number !=0" [routerLink]="['/clientes/page',paginador.number-1]" >&laquo; </a>
+      <span class="page-link" *ngIf="paginador.number ==0">Anterior</span>
+    </li>
+
+    <!-- [ngClass] tiene una condicion que si se cumple aplica una clase -->
+    <!-- links con routerLink -->
+    <li class="page-item" *ngFor="let pagina of paginas" [ngClass]="pagina-1 ==paginador.number?'disabled':''">
       <!-- paginador es un atributo del component que viene inyectado -->
       <span  class="page-link" *ngIf="pagina-1 ==paginador.numer">{{pagina}}</span> <!-- para que no se genere el link  -->
-      <!-- links con routerLink -->
       <!-- desde el backend la paginacón empieza desde cero pero en el front desde 1  -->
       <a class="page-link" *ngIf="pagina-1 !=paginador.numer" [routerLink]="['/clientes/page',pagina-1]" >{{pagina}}</a>
+    </li>
+
+    <!-- siguiente -->
+    <li class="page-item" [ngClass]="paginador.number ==paginador.totalPages-1?'disabled':''">
+        <!-- Verifica que no sea la ultima pagina sino lo deshabilitaa -->
+      <a class="page-link" *ngIf="paginador.number !=paginador.totalPages-1" [routerLink]="['/clientes/page',paginador.number+1]" >&raquo;</a>
+      <span class="page-link" *ngIf="paginador.number ==paginador.totalPages-1"> Siguiete</span>
     </li>
   </ul>
