@@ -1,6 +1,10 @@
 <!-- *ngIf="paginas?.length > 0" -->
 <ul  class="pagination">
-  <li *ngFor="let pagina of paginas">
-    {{ pagina }}
-  </li>
-</ul>
+    <li class="page-item" *ngFor="let pagina of paginas">
+      <!-- paginador es un atributo del component que viene inyectado -->
+      <span  class="page-link" *ngIf="pagina-1 ==paginador.numer">{{pagina}}</span> <!-- para que no se genere el link  -->
+      <!-- links con routerLink -->
+      <!-- desde el backend la paginacón empieza desde cero pero en el front desde 1  -->
+      <a class="page-link" *ngIf="pagina-1 !=paginador.numer" [routerLink]="['/clientes/page',pagina-1]" >{{pagina}}</a>
+    </li>
+  </ul>
