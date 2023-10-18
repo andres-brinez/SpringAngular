@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router'; // Se encarga de obtener el pa
 export class ClientesPageComponent implements OnInit {
 
   clientes: Cliente[] = [] // Se crea un array de objetos de tipo Cliente
+  paginador: any; // Esto se inyecta al componente paginator para poder utilizarlo
 
   // Inyección de dependencias de ClienteService en el constructor de la clase para poder utilizarlo
   constructor(private clienteService: ClienteService , private activateRoute: ActivatedRoute) { }
@@ -27,8 +28,10 @@ export class ClientesPageComponent implements OnInit {
       let page:number = +params.get('page')! | 0;  // Se obtiene el parámetro page de la url y Asigna 0 si page es null
 
       this.clienteService.getClientespage(page).subscribe(
+        // response tiene mucha información de la páginación como el número de paginas, el contenido etc.
         response => {
           this.clientes = response.content as Cliente[]; // Se convierte la respuesta a un array de clientes
+          this.paginador = response; // Se asigna el paginador de la respuesta a la variable paginador, esto es para poder utilizarlo en el componente paginator
         }
       );
     });

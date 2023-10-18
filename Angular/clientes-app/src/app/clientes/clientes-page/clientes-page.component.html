@@ -46,7 +46,9 @@
           </tr>
         </tbody>
       </table>
-      <paginator-nav></paginator-nav>
+      <!-- se inyecta un valor del componente "cliente-page.component.ts" que está asignado como paginador y se guarda en [paginador] que hace refenrencia a la variable creada en paginator.ts para guardar la informacion   -->
+      <!-- if el paginador existe, esta validacion se hace  para verificar que en clientes.component.ts ya se haya asignado el valor a la variable  paginador  -->
+      <paginator-nav *ngIf="paginador" [paginador]="paginador"></paginator-nav>
   
     </div>
   </div>
