@@ -13,6 +13,7 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { FormComponent } from './clientes/form/form.component';
 import { ClienteService } from './clientes/cliente.service';
 import { ClientesPageComponent } from './clientes/clientes-page/clientes-page.component';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 // Constante con un arreglo de las rutas
 const routes: Routes = [
@@ -32,7 +33,8 @@ const routes: Routes = [
     FooterComponent,
     ClientesComponent,
     FormComponent,
-    ClientesPageComponent
+    ClientesPageComponent,
+    PaginatorComponent
   ],
   // Aquí se registran los módulos que se van a utilizar en la aplicación
   imports: [ 
