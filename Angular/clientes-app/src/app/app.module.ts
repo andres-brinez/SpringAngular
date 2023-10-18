@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'clientes', component: ClientesComponent},
   {path: 'clientes/form', component: FormComponent},
   {path: 'clientes/form/:id', component: FormComponent},
-  {path: 'clientes/page', component: ClientesPageComponent}
+  {path: 'clientes/page/:page', component: ClientesPageComponent}
 
 ];
 
