@@ -1,5 +1,12 @@
 <!-- *ngIf="paginas?.length > 0" -->
-<ul  class="pagination">
+<ul  class="pagination" style="overflow: scroll;">
+
+    <!-- Implementando links para la primera  página -->
+    <li class="page-item" [ngClass]="paginador.number ==0?'disabled':''">
+        <!-- Verifica que no sea la primera pagina sino lo deshabilitaa -->
+      <a class="page-link" *ngIf="paginador.number !=0" [routerLink]="['/clientes/page',0]" >Primera</a>
+      <span class="page-link" *ngIf="paginador.number ==0">Primera</span>
+    </li>
 
     <!-- Anterior -->
     <li class="page-item" [ngClass]="paginador.number ==0?'disabled':''">
@@ -7,6 +14,7 @@
       <a class="page-link" *ngIf="paginador.number !=0" [routerLink]="['/clientes/page',paginador.number-1]" >&laquo; </a>
       <span class="page-link" *ngIf="paginador.number ==0">Anterior</span>
     </li>
+
 
     <!-- [ngClass] tiene una condicion que si se cumple aplica una clase -->
     <!-- links con routerLink -->
@@ -17,10 +25,20 @@
       <a class="page-link" *ngIf="pagina-1 !=paginador.numer" [routerLink]="['/clientes/page',pagina-1]" >{{pagina}}</a>
     </li>
 
+      <!-- Implementando links para la primera y última página -->
+      <li class="page-item" [ngClass]="paginador.number ==paginador.totalPages-1?'disabled':''">
+        <!-- Verifica que no sea la primera pagina sino lo deshabilitaa -->
+      <a class="page-link" *ngIf="paginador.number !=paginador.totalPages-1" [routerLink]="['/clientes/page',paginador.totalPages-1]" >Ultima</a>
+      <span class="page-link" *ngIf="paginador.number ==paginador.totalPages-1">Ultima</span>
+    </li>
+
     <!-- siguiente -->
     <li class="page-item" [ngClass]="paginador.number ==paginador.totalPages-1?'disabled':''">
         <!-- Verifica que no sea la ultima pagina sino lo deshabilitaa -->
       <a class="page-link" *ngIf="paginador.number !=paginador.totalPages-1" [routerLink]="['/clientes/page',paginador.number+1]" >&raquo;</a>
-      <span class="page-link" *ngIf="paginador.number ==paginador.totalPages-1"> Siguiete</span>
+      <span class="page-link" *ngIf="paginador.number ==paginador.totalPages-1"> Siguiente</span>
     </li>
+
+  
+
   </ul>
