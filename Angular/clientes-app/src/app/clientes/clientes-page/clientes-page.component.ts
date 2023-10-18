@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../Cliente';
 import { ClienteService } from '../cliente.service';
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router'; // Se encarga de obtener el parametro de la ruta
 
 @Component({
   selector: 'app-clientes-page',
@@ -13,16 +14,30 @@ export class ClientesPageComponent implements OnInit {
   clientes: Cliente[] = [] // Se crea un array de objetos de tipo Cliente
 
   // Inyección de dependencias de ClienteService en el constructor de la clase para poder utilizarlo
-  constructor(private clienteService: ClienteService) { }
+  constructor(private clienteService: ClienteService , private activateRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
 
-    let page = 0; // Empieza en la página 0
-    this.clienteService.getClientespage(page).subscribe(
-      response => {
-        this.clientes = response.content as Cliente[]; // Se convierte la respuesta a un array de clientes
-      }
-    );
+    // ActivatedRouted se utiliza para obtener el parámetro de la URL de forma actualizada, es decir que cuando cambia el parametro de la ruta se ejcuta el codigo 
+    // Esto es gracias a que es un observable y se puede suscribir, por lo que está pendiente de los cambios en la ruta 
+    // this.activateRoute.paramMap se encarga de suscribir un obsevador cada vez que cambia el parametro en la ruta se refresca la informacion con el nuevo page de informacion de clientes
+    this.activateRoute.paramMap.subscribe(params => {
+      //Se recupera el parámetro page de la url para obtener la pagina que se quiere ver
+      // + convierte a tipe number
+      let page:number = +params.get('page')! | 0;  // Se obtiene el parámetro page de la url y Asigna 0 si page es null
+
+      this.clienteService.getClientespage(page).subscribe(
+        response => {
+          this.clientes = response.content as Cliente[]; // Se convierte la respuesta a un array de clientes
+        }
+      );
+    });
+  
+      
+    
+    
+    
+   
 
 
   }
