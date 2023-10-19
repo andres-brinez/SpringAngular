@@ -14,6 +14,7 @@ import { FormComponent } from './clientes/form/form.component';
 import { ClienteService } from './clientes/cliente.service';
 import { ClientesPageComponent } from './clientes/clientes-page/clientes-page.component';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { DetalleComponent } from './clientes/detalle/detalle.component';
 
 // Constante con un arreglo de las rutas
 const routes: Routes = [
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path: 'clientes', component: ClientesComponent},
   {path: 'clientes/form', component: FormComponent},
   {path: 'clientes/form/:id', component: FormComponent},
-  {path: 'clientes/page/:page', component: ClientesPageComponent}
+  {path: 'clientes/page/:page', component: ClientesPageComponent},
+  {path: 'clientes/ver/:id', component: DetalleComponent}
 
 ];
 
@@ -34,7 +36,8 @@ const routes: Routes = [
     ClientesComponent,
     FormComponent,
     ClientesPageComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    DetalleComponent
   ],
   // Aquí se registran los módulos que se van a utilizar en la aplicación
   imports: [ 
