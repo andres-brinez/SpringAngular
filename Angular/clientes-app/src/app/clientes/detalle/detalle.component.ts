@@ -13,7 +13,7 @@ export class DetalleComponent implements OnInit {
 
   cliente:Cliente;
   titulo:string="Detalle del cliente";
-  private fotoSeleccionada:File;
+  fotoSeleccionada:File;
 
 
   constructor(private clienteService:ClienteService,private activateRouter: ActivatedRoute) {
@@ -43,12 +43,19 @@ export class DetalleComponent implements OnInit {
     this.fotoSeleccionada=event.target.files[0]; // Se obtiene el archivo
     console.log(this.fotoSeleccionada);
 
+    // Validar que el archivo sea de tipo imagen
+    if(this.fotoSeleccionada.type.indexOf('image')<0){
+      Swal.fire('Error al seleccionar la foto',`El archivo debe ser de tipo imagen`,'error');
+      this.fotoSeleccionada=new File([""],''); // Se limpia el archivo
+    }
+
   }
 
   // Se sube la foto
   subirFoto():void{
-    if(!this.fotoSeleccionada){
+    if(this.fotoSeleccionada.name==""){ // si el nombre del archivo es vacio significa que no se seleccionó una foto
       console.log("Debe seleccionar una foto");
+      Swal.fire('Error al subir',`Debe seleccionar una foto`,'error');
     } else{
       this.clienteService.subirFoto(this.fotoSeleccionada,this.cliente.id).subscribe(cliente=>{
         this.cliente=cliente; // Se guarda el cliente con su nueva foto
