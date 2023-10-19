@@ -70,8 +70,6 @@ export class ClienteService {
       );
     }
 
-
-
   // Crea un cliente
   // Se recibe un objeto de tipo cliente y se retorna un Observable de cualquier tipo,
   create(cliente: Cliente): Observable<any> {
@@ -79,7 +77,7 @@ export class ClienteService {
     return this.http.post<Cliente>(this.urlEndPoint, cliente, { headers: this.httpHeaders }).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
 
-        if (e.status == 400) {
+        if (e.status == 400) { //  El código 400 indica que hay errores en la validación de los datos enviados por lo que debe tener un manejo distinto a los otros errores
           return throwError(e); // Se retorna el error en observable
         }
         console.error(e.error.mensaje); // Se imprime en consola el error
