@@ -25,6 +25,11 @@
                                 id="inputGroupFileAddon84">Subir foto</button>
                         </div>
                     </div>
+                    <div *ngIf="progreso > 0" class="progress">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{'width': progreso+'%'}" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100">
+                            {{progreso}}%
+                        </div>
+                    </div>
                 </div>
                 <!-- se muestra la imagen -->
                 <div class="col-sm">
