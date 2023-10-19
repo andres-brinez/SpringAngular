@@ -1,3 +1,5 @@
+<!-- Muestra la lista de clientes con páginación -->
+
 <div class="card border-primary mb-3">
     <div class="card-header">Clientes</div>
     <div class="card-body text-primary">
@@ -9,8 +11,6 @@
           Crear Cliente
         </button>
       </div>
-  
-  
   
       <!-- si clientes es igual a 0  se muestra una alerta -->
       <div *ngIf="clientes.length == 0" class="alert alert-info">
