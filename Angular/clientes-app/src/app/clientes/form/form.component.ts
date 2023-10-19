@@ -17,7 +17,7 @@ export class FormComponent implements OnInit {
   public cliente: Cliente = new Cliente()
   public titulo: string = "Crear Cliente";
 
-  public errores: string[]=[]; // Se declara un arreglo de errores
+  public errores: string[]=[]; // Se declara un arreglo de errores que vienen desde el backned 
 
   constructor(private clienteService: ClienteService, private router: Router, private activateRouter: ActivatedRoute) { }
 
