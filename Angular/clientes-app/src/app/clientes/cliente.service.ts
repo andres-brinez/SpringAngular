@@ -131,4 +131,24 @@ export class ClienteService {
     );
   }
 
+  // Se sube la foto
+  subirFoto(archivo:File,id:any): Observable<Cliente>{
+
+    let formatDate = new FormData(); // Se crea un objeto de tipo FormData para enviar el archivo en titpo de contenido multipart/form-data
+    formatDate.append("archivo",archivo); // Se agrega el archivo al objeto FormData
+    formatDate.append("id",id); // Se agrega el id dle usuario al objeto FormData
+    console.log(formatDate);
+
+    // Se hace la petición POST al servidor para subir la imagen por el formatDate
+    return this.http.post(`${this.urlEndPoint}/upload`,formatDate).pipe(
+      map((response:any)=>response.cliente as Cliente), // Se hace un casteo de la respuesta a un cliente
+      catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+        console.error(e.error); // Se imprime en consola el error
+        Swal.fire(e.error, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
+        return throwError(e); // Se retorna el error
+      })
+    );
+
+
+  }
 }
