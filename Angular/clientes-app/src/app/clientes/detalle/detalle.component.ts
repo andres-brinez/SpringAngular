@@ -66,6 +66,9 @@ export class DetalleComponent implements OnInit {
           else if (event.type === HttpEventType.Response) { // Si el evento es de tipo Response es decir que se ha subido la imagen
             let response: any = event.body; // Se obtiene la respuesta del servidor
             this.cliente = response.cliente as Cliente; // Se obtiene el cliente con su nueva foto
+
+            this.modalService.notificarUpload.emit(this.cliente); // Se emite el evento para notificar que se subió una foto,y se devuelve el cliente con su nueva foto
+
             Swal.fire('La foto se ha subido correctamente', response.mensaje, 'success');
           }
       });

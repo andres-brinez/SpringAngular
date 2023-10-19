@@ -29,6 +29,19 @@ export class ClientesComponent implements OnInit {
       // this.clientes=clientes  
       //}
     ); // Se llama al método getClientes() del servicio y se suscribe al Observable para recibir la respuesta que son los clientes y se asignan al array de clientes
+    
+    // Se suscribe al evento notificarUpload del servicio modalService que notifica cuando un cliente  sube una foto
+    // Esto se usa especialmente para actualizar datos de la vista cuando se hace algun cambio
+    this.modalService.notificarUpload.subscribe(cliente => {
+      this.clientes = this.clientes.map(clienteOriginal => {
+        if(cliente.id == clienteOriginal.id){
+          clienteOriginal.foto=cliente.foto; // Actualiza la foto del cliente que se subió 
+        }
+        return clienteOriginal;
+      })
+
+     })
+  
   }
 
   // El objeto cliente que se recibe como parámetro viene del botón eliminar del componente clientes.component.html
