@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'; // @Input() es un decorador  que se utiliza para indicar que una propiedad de un componente puede ser recibida como entrada desde otro componente
 import { Cliente } from '../Cliente';
 import { ClienteService } from '../cliente.service';
-import { ActivatedRoute } from '@angular/router'; // Se necesita para obtener el id del usuario de la irl 
 import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
 import { ModalService } from './modal.service';
@@ -19,7 +18,7 @@ export class DetalleComponent implements OnInit {
   progreso: number = 0;
 
 
-  constructor(private clienteService: ClienteService,private modalService:ModalService, private activateRouter: ActivatedRoute) {
+  constructor(private clienteService: ClienteService,public modalService:ModalService) {
     this.cliente = new Cliente();
     this.fotoSeleccionada = new File([""], '');
   }
@@ -71,6 +70,12 @@ export class DetalleComponent implements OnInit {
           }
       });
     }
+  }
+
+  cerrarModal(){
+    this.modalService.cerrarModal();
+    this.fotoSeleccionada = new File([""], ''); // Se limpia el archivo
+    this.progreso=0;
   }
 
 }
