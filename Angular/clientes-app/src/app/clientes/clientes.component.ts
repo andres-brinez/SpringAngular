@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from './Cliente';
 import { ClienteService } from './cliente.service';
 import Swal from 'sweetalert2';
+import { ModalService } from './detalle/modal.service';
 
 @Component({
   selector: 'app-clientes',
@@ -15,7 +16,7 @@ export class ClientesComponent implements OnInit {
   clienteSelecionado:Cliente; // Se crea un objeto de tipo Cliente
 
   // Se hace inyección de dependencias de ClienteService en el constructor de la clase para poder utilizarlo
-  constructor(private clienteService: ClienteService) {
+  constructor(private clienteService: ClienteService,private modalService:ModalService) {
     this.clienteSelecionado=new Cliente();
    }
 

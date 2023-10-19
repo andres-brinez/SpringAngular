@@ -4,6 +4,7 @@ import { ClienteService } from '../cliente.service';
 import { ActivatedRoute } from '@angular/router'; // Se necesita para obtener el id del usuario de la irl 
 import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
+import { ModalService } from './modal.service';
 
 @Component({
   selector: 'detalle-cliente',
@@ -18,7 +19,7 @@ export class DetalleComponent implements OnInit {
   progreso: number = 0;
 
 
-  constructor(private clienteService: ClienteService, private activateRouter: ActivatedRoute) {
+  constructor(private clienteService: ClienteService,private modalService:ModalService, private activateRouter: ActivatedRoute) {
     this.cliente = new Cliente();
     this.fotoSeleccionada = new File([""], '');
   }
