@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core'; // @Input() es un decorador  que se utiliza para indicar que una propiedad de un componente puede ser recibida como entrada desde otro componente
 import { Cliente } from '../Cliente';
 import { ClienteService } from '../cliente.service';
 import { ActivatedRoute } from '@angular/router'; // Se necesita para obtener el id del usuario de la irl 
@@ -12,7 +12,7 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class DetalleComponent implements OnInit {
 
-  cliente: Cliente;
+  @Input() cliente: Cliente; // Se recibe un cliente de tipo Cliente , @Input() indica que se inyecta un cliente desde el componente padre
   titulo: string = "Detalle del cliente";
   fotoSeleccionada: File;
   progreso: number = 0;
@@ -24,17 +24,17 @@ export class DetalleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    // este metodo ya no sirve porque ya no se obtiene el cliente de esta manera, sino que se muestra en un modal
     // Cuando se inicialize el componente se suscribe para cuando cambia el parametro del id e nla url para obtener el detalle del cliente
-    this.activateRouter.params.subscribe(params => {
-      let id = params['id']; // Se obtiene el id del cliente de la url, si es null se asigna -1 para representar que es null
-      console.log(id);
-      if (id) {
-        this.clienteService.getCliente(id).subscribe(cliente => {
-          this.cliente = cliente;
-        });
-      }
-    });
+    // this.activateRouter.params.subscribe(params => {
+    //   let id = params['id']; // Se obtiene el id del cliente de la url, si es null se asigna -1 para representar que es null
+    //   console.log(id);
+    //   if (id) {
+    //     this.clienteService.getCliente(id).subscribe(cliente => {
+    //       this.cliente = cliente;
+    //     });
+    //   }
+    // });
 
 
   }

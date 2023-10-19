@@ -12,9 +12,12 @@ import Swal from 'sweetalert2';
 export class ClientesComponent implements OnInit {
 
   clientes: Cliente[] = [] // Se crea un array de objetos de tipo Cliente
+  clienteSelecionado:Cliente; // Se crea un objeto de tipo Cliente
 
   // Se hace inyección de dependencias de ClienteService en el constructor de la clase para poder utilizarlo
-  constructor(private clienteService: ClienteService) { }
+  constructor(private clienteService: ClienteService) {
+    this.clienteSelecionado=new Cliente();
+   }
 
   ngOnInit() { //El método ngOnInit() se ejecuta una vez después de que Angular haya inicializado las propiedades de entrada del componente.
 
@@ -57,6 +60,11 @@ export class ClientesComponent implements OnInit {
     })
 
 
+  }
+
+  // Se encarga del modal
+  abrirModal(cliente:Cliente){
+    this.clienteSelecionado=cliente;
   }
 
 }

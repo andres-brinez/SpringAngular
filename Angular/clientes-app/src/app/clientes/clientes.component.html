@@ -1,16 +1,16 @@
+<!-- Se inyecta un cliente desde este componente (cliente.component) al componente detalle.component-->
+<detalle-cliente *ngIf="clienteSelecionado" [cliente]="clienteSelecionado "></detalle-cliente> <!-- Se agrega esta etiqueta que representa al detalle component -->
+
 <div class="card border-primary mb-3">
   <div class="card-header">Clientes</div>
   <div class="card-body text-primary">
     <h5 class="card-title">Listado de clientes</h5>
 
-    
     <div class="my-2 text-left">
       <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
         Crear Cliente
       </button>
     </div>
-
-
 
     <!-- si clientes es igual a 0  se muestra una alerta -->
     <div *ngIf="clientes.length == 0" class="alert alert-info">
@@ -33,7 +33,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let cliente of clientes">
-          <td><button [routerLink]="['/clientes/ver', cliente.id]" class="btn btn-success btn-sm">{{ cliente.id }}</button></td>
+          <td><button (click)="abrirModal(cliente)" class="btn btn-success btn-sm">{{ cliente.id }}</button></td>
           <td>{{ cliente.nombre }}</td>
           <td>{{ cliente.apellido }}</td>
           <td>{{ cliente.email }}</td>
