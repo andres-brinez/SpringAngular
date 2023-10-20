@@ -42,7 +42,7 @@ La directiva #clienteForm="ngForm" se utiliza para crear una referencia al formu
             </div>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group row">
         <label for="email">Email</label>
         <input type="email" class="form-control" name="email" [(ngModel)]="cliente.email" required email #email>
         <div class="alert alert-danger"
@@ -54,6 +54,15 @@ La directiva #clienteForm="ngForm" se utiliza para crear una referencia al formu
                 El email no es válido
             </div>
         </div>
+    </div>
+    <div class="form-group row">
+        <label for="region" class="col-form-label col-sm-2">Región</label>
+        <div class="col-sm-6">
+            <select name="region" class="form-control" [(ngModel)]="cliente.region" style="width: 500px;">
+                <option *ngFor="let region  of regiones" [ngValue]="region">{{region.nombre}}</option>
+            </select>
+        </div>
+      
     </div>
 
         
