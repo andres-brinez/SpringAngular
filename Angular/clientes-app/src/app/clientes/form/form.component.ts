@@ -76,6 +76,14 @@ export class FormComponent implements OnInit {
       );
   }
 
-
+  // Se utiliza para comparar las regiones con la region del cliente y selecciona la region del cliente en el select
+  // o1 representa cada una de las regiones es decir de las opciones del  select
+  // o2 representa la region del cliente
+  compararRegion(o1:Region,o2:Region):boolean{
+    if(o1===undefined && o2===undefined){
+      return true;
+    }
+    return o1===null || o2===null || o1===undefined || o2===undefined?false:o1.id===o2.id; // 
+  }
 
 }
