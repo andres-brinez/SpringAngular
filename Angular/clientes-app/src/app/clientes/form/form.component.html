@@ -61,6 +61,7 @@ La directiva #clienteForm="ngForm" se utiliza para crear una referencia al formu
             <!-- en la edición del cliente para que se pueda ver cual region está seleccinada 
             se debe comparar la region del cliente con la lista de regiones para dejarla seleccionada  -->
             <select [compareWith]="compararRegion" name="region" class="form-control" [(ngModel)]="cliente.region" style="width: 500px;">
+                <option *ngIf="!cliente.region" [ngValue]="undefined" >--- Seleccionar región ---</option> <!-- si no hay region seleccionada se muestra el mensaje -->
                 <option *ngFor="let region  of regiones" [ngValue]="region">{{region.nombre}}</option>
             </select>
         </div>

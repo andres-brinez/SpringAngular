@@ -80,8 +80,10 @@ export class FormComponent implements OnInit {
   // o1 representa cada una de las regiones es decir de las opciones del  select
   // o2 representa la region del cliente
   compararRegion(o1:Region,o2:Region):boolean{
+    console.log(o1);
+    console.log(o2);
     if(o1===undefined && o2===undefined){
-      return true;
+      return true; // Si las dos regiones son undefined se retorna true es decir se selecciona el mensaje de seleccionar una region 
     }
     return o1===null || o2===null || o1===undefined || o2===undefined?false:o1.id===o2.id; // 
   }
