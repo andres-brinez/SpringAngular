@@ -6,6 +6,7 @@ import { catchError, throwError } from 'rxjs'; // catchError sirve para manejar 
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router'; // Sirve para manejar rutas y hacer redirecciones
 import { formatDate } from '@angular/common';
+import { Region } from './region';
 
 /*
 Observable se utiliza con frecuencia para manejar solicitudes HTTP y eventos del usuario.
@@ -145,6 +146,10 @@ export class ClienteService {
 
     // Se hace la petición POST al servidor para subir la imagen por el formatDate
     return this.http.request(req)
+  }
+
+  getRegiones():Observable<Region[]>{
+    return this.http.get<Region[]>(this.urlEndPoint+'/regiones')
   }
     
 }
