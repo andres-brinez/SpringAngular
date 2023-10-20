@@ -3,6 +3,7 @@ import { Cliente } from '../Cliente';
 import { ClienteService } from '../cliente.service';
 import { Router, ActivatedRoute } from '@angular/router'; //Router se utiliza para redireccionar a otra vista ActivatedRoute se utiliza para obtener el parámetro de la URL
 import swal from 'sweetalert2'; // Se importa la librería de alertas
+import { Region } from '../region';
 //OnInit se utiliza para realizar tareas de inicialización después de que se hayan inicializado las propiedades de entrada del componente.
 
 
@@ -14,7 +15,8 @@ import swal from 'sweetalert2'; // Se importa la librería de alertas
 
 export class FormComponent implements OnInit {
 
-  public cliente: Cliente = new Cliente()
+  public cliente: Cliente = new Cliente();
+  public regiones:Region[]=[];
   public titulo: string = "Crear Cliente";
 
   public errores: string[]=[]; // Se declara un arreglo de errores que vienen desde el backned 
@@ -35,6 +37,8 @@ export class FormComponent implements OnInit {
         this.clienteService.getCliente(id).subscribe((cliente) => this.cliente = cliente) // Se obtiene el cliente con el id y se asigna a la variable cliente
       }
     })
+    // Se necesita obtener las regiones para mostrarlas en el formulario en un select
+    this.clienteService.getRegiones().subscribe(regiones => this.regiones =regiones  ); // Se obtienen las regiones y se asignan a la lista regiones
   }
 
 
