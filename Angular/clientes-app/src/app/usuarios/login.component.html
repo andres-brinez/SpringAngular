@@ -7,18 +7,23 @@
                     <h4 class="card-title">{{titulo}}</h4>
                 </div>
                 <div class="card-body">
+
+                    <!-- Para mapear el formulario con los datos de la clase Usuario,
+                        se utiliza la directiva ngModel de Angular
+                        que permite enlazar los valores de los elementos del formulario con las propiedades de la clase Usuario. -->
                     <form>
                         <div class="form-group">
                             <label for="usuario">Usuario</label>
-                            <input type="text" class="form-control" id="usuario" placeholder="Ingrese su usuario"
+                            <input    [(ngModel)]="usuario.username"  name="username"  type="text" class="form-control" id="nombre" placeholder="Ingrese su usuario"
                                 autofocus required>
                         </div>
                         <div class="form-group">
                             <label for="contrasena">Contraseña</label>
-                            <input type="password" class="form-control" id="contrasena"
+                            <input [(ngModel)]="usuario.password" name="password" type="password" class="form-control" id="contrasena"
                                 placeholder="Ingrese su contraseña" required>
                         </div>
-                        <button type="submit" class="btn btn-lg  btn-primary btn-block">Iniciar sesión</button>
+                        <!-- click hace referencia al metodo que se va a llamar en el login.component.ts cuando se haga click -->
+                        <button (click)="login()" type="submit" class="btn btn-lg  btn-primary btn-block">Iniciar sesión</button>
                     </form>
                 </div>
             </div>
