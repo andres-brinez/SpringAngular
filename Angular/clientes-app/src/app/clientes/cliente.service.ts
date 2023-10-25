@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'; // Injectable se utiliza para inyectar dependencias en una clase
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http'; //  HttpClient sirve para hacer peticiones HTTP a un servidor y recibir respuestas en diferentes formatos
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http'; //  HttpClient sirve para hacer peticiones HTTP a un servidor y recibir respuestas en diferentes formatos
 import { Cliente } from './Cliente';
 import { Observable, map } from 'rxjs'; // Observable sirve para manejar eventos asíncronos
 import { catchError, throwError } from 'rxjs'; // catchError sirve para manejar errores en los Observables
@@ -29,6 +29,16 @@ export class ClienteService {
   // Se hace inyección de dependencias de HttpClient en el constructor de la clase para poder utilizarlo
   constructor(private http: HttpClient, private router: Router) { }
 
+  // Verifica si el usuario está autenticado
+  private isNoAutorizado(e: HttpResponse<any>): boolean {
+    if (e.status == 401 || e.status == 403) { // Si el status es 401 o 403 se redirecciona a la ruta login
+      this.router.navigate(['/login']);
+      return true;
+    }
+    return false;
+  }
+
+
   // Obtiene el listado de clientes
   getClientes(): Observable<Cliente[]> {
     // Se hace la petición GET al servidor y se le pasa la URL del recurso
@@ -47,29 +57,29 @@ export class ClienteService {
         let cliente = response as Cliente[]; // Se castea la respuesta a un arreglo de clientes
         return cliente.map(cliente => { // Se recorre el arreglo de clientes
           cliente.nombre = cliente.nombre.toUpperCase(); // Se convierte el nombre del cliente a mayúsculas
-          cliente.createAt= formatDate(cliente.createAt,'dd-MM-yyyy','en-US'); // Se convierte la fecha a un formato especifico
+          cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US'); // Se convierte la fecha a un formato especifico
           return cliente; // Se retorna el cliente
         });
       })
     );
   }
 
-    // Obtiene el listado de clientes con paginación desde el backend
-    getClientespage(page: number): Observable<any> {
-    
-      // Se hace el casteo con map
-      return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
-        map((response: any) => {
-          (response.content as Cliente[]).map(
-            cliente => { // Se recorre el arreglo de clientes que viene en el content de responde
+  // Obtiene el listado de clientes con paginación desde el backend
+  getClientespage(page: number): Observable<any> {
+
+    // Se hace el casteo con map
+    return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
+      map((response: any) => {
+        (response.content as Cliente[]).map(
+          cliente => { // Se recorre el arreglo de clientes que viene en el content de responde
             cliente.nombre = cliente.nombre.toUpperCase(); // Se convierte el nombre del cliente a mayúsculas
-            cliente.createAt= formatDate(cliente.createAt,'dd-MM-yyyy','en-US'); // Se convierte la fecha a un formato especifico
+            cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US'); // Se convierte la fecha a un formato especifico
             return cliente; // Se retorna el cliente
           });
-          return response;
-        })
-      );
-    }
+        return response;
+      })
+    );
+  }
 
   // Crea un cliente
   // Se recibe un objeto de tipo cliente y se retorna un Observable de cualquier tipo,
@@ -78,6 +88,12 @@ export class ClienteService {
     return this.http.post<Cliente>(this.urlEndPoint, cliente, { headers: this.httpHeaders }).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
 
+        // Verifica si no está autorizado
+        if (this.isNoAutorizado(e)) {
+          return throwError(e); // Se retorna el error en observable
+        }
+
+        // Se verifica si el error es 400
         if (e.status == 400) { //  El código 400 indica que hay errores en la validación de los datos enviados por lo que debe tener un manejo distinto a los otros errores
           return throwError(e); // Se retorna el error en observable
         }
@@ -94,8 +110,15 @@ export class ClienteService {
     // Se hace la petición GET al servidor con el id del cliente y se le pasa la URL del recurso
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+
+        // Verifica si no está autorizado
+        if (this.isNoAutorizado(e)) {
+          return throwError(e); // Se retorna el error en observable
+        }
+
         this.router.navigate(['/clientes']); // Se redirecciona a la ruta clientes
         console.error(e.error.mensaje); // Se imprime en consola el error
+
         Swal.fire('Error al editar', e.error.mensaje, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
         return throwError(e); // Se retorna el error
       },
@@ -109,6 +132,12 @@ export class ClienteService {
     // Se hace la petición PUT al servidor con el id del cliente, el cliente que se va a actualizar y el tipo de contenido que se está enviando en el cuerpo de la petición
     return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, { headers: this.httpHeaders }).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+
+        // Verifica si no está autorizado
+        if (this.isNoAutorizado(e)) {
+          return throwError(e); // Se retorna el error en observable
+        }
+
         if (e.status == 400) {
           return throwError(e); // Se retorna el error en observable
         }
@@ -125,31 +154,44 @@ export class ClienteService {
     // Se hace la petición DELETE al servidor con el id del cliente y se le pasa la URL del recurso
     return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, { headers: this.httpHeaders }).pipe(
       catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+
+        // Verifica si no está autorizado
+        if (this.isNoAutorizado(e)) {
+          return throwError(e); // Se retorna el error en observable
+        }
+
+
         console.error(e.error.mensaje); // Se imprime en consola el error
         Swal.fire(e.error.mensaje, e.error.error, 'error'); // Se muestra un mensaje de error que se recibe del servidor(backend) 
+
         return throwError(e); // Se retorna el error
       })
     );
   }
 
   // Se sube la foto
-  subirFoto(archivo:File,id:any): Observable<HttpEvent<{}>>{
+  subirFoto(archivo: File, id: any): Observable<HttpEvent<{}>> {
 
     let formatDate = new FormData(); // Se crea un objeto de tipo FormData para enviar el archivo en titpo de contenido multipart/form-data
-    formatDate.append("archivo",archivo); // Se agrega el archivo al objeto FormData
-    formatDate.append("id",id); // Se agrega el id dle usuario al objeto FormData
+    formatDate.append("archivo", archivo); // Se agrega el archivo al objeto FormData
+    formatDate.append("id", id); // Se agrega el id dle usuario al objeto FormData
     console.log(formatDate);
 
-    const req= new HttpRequest('POST',`${this.urlEndPoint}/upload`,formatDate,{ 
-      reportProgress:true // Se habilita la propiedad reportProgress para poder obtener el progreso de la subida de la imagen
+    const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`, formatDate, {
+      reportProgress: true // Se habilita la propiedad reportProgress para poder obtener el progreso de la subida de la imagen
     });
 
     // Se hace la petición POST al servidor para subir la imagen por el formatDate
     return this.http.request(req)
   }
-
-  getRegiones():Observable<Region[]>{
-    return this.http.get<Region[]>(this.urlEndPoint+'/regiones')
+  
+  getRegiones(): Observable<Region[]> {
+    return this.http.get<Region[]>(this.urlEndPoint + '/regiones').pipe(
+      catchError(e => { // Si se produce un error durante la solicitud, se captura el error
+        this.isNoAutorizado(e); // Se verifica si el usuario está autenticado
+        return throwError(e); // Se retorna el error
+      })
+    )
   }
-    
+
 }
