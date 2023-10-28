@@ -1,3 +1,4 @@
+import { Factura } from "../facturas/models/factura";
 import { Region } from "./region";
 
 export class Cliente {
@@ -8,6 +9,7 @@ export class Cliente {
    createAt: string;
    foto: string;
    region: Region;
+   facturas: Factura[];
 
    // Los parametros con ? indica que son opcionales
    constructor(id?: number, nombre?: string, apellido?: string, email?: string, createAt?: string,foto?:string, region?: Region) {
@@ -19,5 +21,7 @@ export class Cliente {
       this.createAt = createAt || '';
       this.foto=foto || '';
       this.region = region || new Region();
+      this.facturas = [];
+
    }
 }
