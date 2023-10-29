@@ -41,38 +41,100 @@ export class FacturasComponent implements OnInit {
 
     // Autocomplete usando Angular Material
 
-   this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
       tap((value) => console.log(value))
     );
   }
-  
+
 
   // Filtra los valores de acuerdo a lo que se escribe en el input y devuelve una lista con las coincidencias
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    let lista=this.options.filter(option => option.toLowerCase().includes(filterValue))
+    let lista = this.options.filter(option => option.toLowerCase().includes(filterValue))
     console.log(lista);
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
+  // Actualizar la cantidad del producto en la factura
+  // Se recibe el id del producto
+  // Se recibe el evento que se genera cuando se cambia la cantidad del producto en el input
+  // Se actualiza la cantidad del producto en la factura
+  // Se recorre la lista de items de la factura y se actualiza la cantidad del producto
+  // Actualiza la cantidad del producto en la factura
+  actualizarCantidad(id: number, event: any): void {
+    let cantidad: number = event.target.value as number;
+
+    if (cantidad == 0) {
+      return this.eliminarItemFactura(id);
+    }
+
+    this.factura.items = this.factura.items.map((item: Itemfactura) => {
+      if (id === item.producto.id) {
+        item.cantidad = cantidad;
+      }
+      return item;
+    });
+  }
+
+
   // Se selecciona un valor del autocomplete
   seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
     console.log(event.option.value);
-    let producto=event.option.value as Producto; // Se  obtiene el producto seleccionado
+    let producto = event.option.value as Producto; // Se  obtiene el producto seleccionado
     console.log(producto);
 
-    let nuevoItem= new Itemfactura(); 
-    nuevoItem.producto=producto; 
-    this.factura.items.push(nuevoItem);
+    // Valida si existe ya un prodocuto en la factura para no agregarlo de nuevo sino que se incrementa la cantidad
+    if (this.existeItem(producto)) {
+
+      this.incrementarCantidad(producto.id);
+    }
+    else {
+      let nuevoItem = new Itemfactura();
+      nuevoItem.producto = producto;
+      this.factura.items.push(nuevoItem);
+    }
 
     // Al selecionar un producto se limpia el input
     this.myControl.setValue('');
     event.option.focus();
     event.option.deselect(); // Se deselecciona el producto
+
   }
+
+  // Valida si existe ya un prodocuto en la factura para no agregarlo de nuevo
+  existeItem(producto: Producto): boolean {
+    let existe = false;
+
+    this.factura.items.forEach((item: Itemfactura) => {
+      if (producto.id === item.producto.id) {
+        existe = true;
+      }
+    });
+    return existe;
+  }
+
+  incrementarCantidad(id: number): void {
+    this.factura.items = this.factura.items.map((item: Itemfactura) => {
+      if (id === item.producto.id) {
+        ++item.cantidad;
+      }
+      return item;
+    });
+  }
+
+  // Actualiza el precio total de la factura
+  actualizarPrecioTotal(): void {
+    this.factura.total = this.factura.items.reduce((acumulador, item) => acumulador + item.calcularImporte(), 0);
+  }
+
+  // Elimina un item de la factura
+  eliminarItemFactura(id: number): void {
+    this.factura.items = this.factura.items.filter((item: Itemfactura) => id !== item.producto.id);
+  }
+
 
 
 }

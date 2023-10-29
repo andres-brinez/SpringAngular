@@ -12,5 +12,15 @@ export class Factura {
     total: number=0;
     createAt: string='';
 
+    // Calcular Gran Total
+    calcularGranTotal():number{
+        this.total=0;
+        // recorre cada item obteniendo el importe de cada uno de los items y lo suma al total
+        this.items.forEach((item:Itemfactura)=>{
+            this.total += item.calcularImporte();
+        });
+        return this.total;
+    }
+
 
 }
