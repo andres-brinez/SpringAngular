@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Factura } from './models/factura';
 import { ClienteService } from '../clientes/cliente.service';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { Observable, map, startWith, tap } from 'rxjs';
 
 @Component({
   selector: 'app-facturas',
@@ -11,6 +13,12 @@ export class FacturasComponent implements OnInit {
 
   titulo: string = 'Nueva Factura';
   factura: Factura = new Factura();
+
+  // Autocomplete usando Angular Material
+  myControl = new FormControl('');
+  options: string[] = ['One', 'Two', 'Three'];
+  public filteredOptions: Observable<string[]> = new Observable<string[]>();
+
 
   constructor(private clienteService: ClienteService, private activateRoute: ActivatedRoute) { }
 
@@ -25,9 +33,27 @@ export class FacturasComponent implements OnInit {
           cliente => this.factura.cliente = cliente // Se asigna el cliente que se obtiene del servicio al cliente de la factura
         );
         // console.log(this.factura);
-
       }
     });
-  }
 
+    // Autocomplete usando Angular Material
+
+   this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+      tap((value) => console.log(value))
+
+
+    );
+  }
+  
+
+  // Filtra los valores de acuerdo a lo que se escribe en el input y devuelve una lista con las coincidencias
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    let lista=this.options.filter(option => option.toLowerCase().includes(filterValue))
+    console.log(lista);
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
 }

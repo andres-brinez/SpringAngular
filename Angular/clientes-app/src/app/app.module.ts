@@ -2,7 +2,14 @@ import { NgModule } from '@angular/core'; // Sirve para registrar los componente
 import { BrowserModule } from '@angular/platform-browser'; // Sirve para que la aplicación se ejecute en el navegador
 import { HttpClientModule } from '@angular/common/http'; //  HttpClient sirve para hacer peticiones HTTP a un servidor y recibir respuestas en diferentes formatos
 import { RouterModule,Routes } from '@angular/router'; // Sirve para registrar las rutas
-import { FormsModule } from '@angular/forms'; // Sirve para enlazar los datos del formulario con el modelo
+import { FormsModule, ReactiveFormsModule, } from '@angular/forms'; // FormsModule Sirve para enlazar los datos del formulario con el modelo,ReactiveFormsModule se utiliza para crear formularios reactivos en este caso para el autocomplete
+
+
+// Angular Material
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; // Sirve para el autocomplete, por lo que se debe instalar con npm ng add @angular/material
+import {MatInputModule} from '@angular/material/input'; // Es el input de Angular Material
+import {MatFormFieldModule} from '@angular/material/form-field'; // Es el form field de Angular Material
+
 
 
 //Componentes
@@ -52,8 +59,14 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes), // esto es para registrar las rutas
-    FormsModule
-    
+    FormsModule,
+    // Angular Material
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule
+
+
   ],
 
   providers: [ClienteService], // Indica los servicios que se van a utilizar en la aplicación globalmente
