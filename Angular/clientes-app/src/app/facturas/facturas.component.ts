@@ -4,6 +4,9 @@ import { ClienteService } from '../clientes/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Producto } from './models/producto';
+import { Itemfactura } from './models/itemfactura';
 
 @Component({
   selector: 'app-facturas',
@@ -42,8 +45,6 @@ export class FacturasComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value || '')),
       tap((value) => console.log(value))
-
-
     );
   }
   
@@ -56,4 +57,22 @@ export class FacturasComponent implements OnInit {
     console.log(lista);
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
+
+  // Se selecciona un valor del autocomplete
+  seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
+    console.log(event.option.value);
+    let producto=event.option.value as Producto; // Se  obtiene el producto seleccionado
+    console.log(producto);
+
+    let nuevoItem= new Itemfactura(); 
+    nuevoItem.producto=producto; 
+    this.factura.items.push(nuevoItem);
+
+    // Al selecionar un producto se limpia el input
+    this.myControl.setValue('');
+    event.option.focus();
+    event.option.deselect(); // Se deselecciona el producto
+  }
+
+
 }
