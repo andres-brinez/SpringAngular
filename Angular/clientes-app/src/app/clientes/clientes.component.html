@@ -29,6 +29,7 @@
           <th>Fecha</th>
           <th>Editar</th>
           <th>Eliminar</th>
+          <th>Crear factura</th>
         </tr>
       </thead>
       <tbody>
@@ -43,7 +44,10 @@
           </td>
           <td>
             <button type="button" name="button" (click)="delete(cliente)" class="btn btn-danger btn-sm"> Eliminar </button>
-        </tr>
+          </td>
+          <td>
+            <button type="button" name="button" [routerLink]="['/facturas/form',cliente.id]" class="btn btn-primary btn-sm"> Crear factura </button>
+          </tr>
       </tbody>
     </table>
 
